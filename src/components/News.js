@@ -208,14 +208,14 @@ export default class News extends Component {
         this.state = {
             articles : [],
             loading: false,
-            pageNo:1,                // The current Page number
-            pageSize: 12,             // No of news articles that will come in one page.
+            pageNo:1               // The current Page number
+           
             
         } 
     }
 
     async componentDidMount(){       // This is where using externall endpoints or API's has to be done. This is a lifecycle method - VVVVVImppppppp
-        let url=`https://newsapi.org/v2/top-headlines?country=in&category=business&apiKey=7de8c4f112184e27a19304e8609055da&page=1&pageSize=${this.state.pageSize}`
+        let url=`https://newsapi.org/v2/top-headlines?country=in&category=business&apiKey=7de8c4f112184e27a19304e8609055da&page=1&pageSize=${this.props.pageSize}`
         let data = await fetch(url);
         let parsedData = await data.json();
         console.log(parsedData)
@@ -226,26 +226,25 @@ export default class News extends Component {
     }
     handleNextClick = async () => {
         let next = false
-        if((this.state.pageNo+1) > Math.ceil(this.state.totalResults/this.state.pageSize)){
+        if((this.state.pageNo+1) > Math.ceil(this.state.totalResults/this.props.pageSize)){
             next=true
         }
         else
             next = false
        
-        let url=`https://newsapi.org/v2/top-headlines?country=in&category=business&apiKey=7de8c4f112184e27a19304e8609055da&page=${this.state.pageNo+1}&pageSize=${this.state.pageSize}`
+        let url=`https://newsapi.org/v2/top-headlines?country=in&category=business&apiKey=7de8c4f112184e27a19304e8609055da&page=${this.state.pageNo+1}&pageSize=${this.props.pageSize}`
             let data = await fetch(url);
             let parsedData = await data.json();
             this.setState({
                 articles : parsedData.articles,
                 pageNo : this.state.pageNo + 1,
-                pageSize: this.state.pageSize,
                 disableNextButton: next
             })
 
     }
 
     handlePrevClick = async () => {
-        let url=`https://newsapi.org/v2/top-headlines?country=in&category=business&apiKey=7de8c4f112184e27a19304e8609055da&page=${this.state.pageNo - 1}&pageSize=${this.state.pageSize}`
+        let url=`https://newsapi.org/v2/top-headlines?country=in&category=business&apiKey=7de8c4f112184e27a19304e8609055da&page=${this.state.pageNo - 1}&pageSize=${this.props.pageSize}`
         let data = await fetch(url);
         let parsedData = await data.json();
         this.setState({
@@ -269,7 +268,7 @@ export default class News extends Component {
 
             <div className="container">
                 <button type="button" disabled={this.state.pageNo<=1} className="btn btn-dark my-3" onClick={this.handlePrevClick}>&laquo; Prev</button>
-                <button type="button" disabled={(this.state.pageNo+1) > Math.ceil(this.state.totalResults/this.state.pageSize)} className="btn btn-dark mx-5" onClick={this.handleNextClick}>Next &raquo;</button>
+                <button type="button" disabled={(this.state.pageNo+1) > Math.ceil(this.state.totalResults/this.props.pageSize)} className="btn btn-dark mx-5" onClick={this.handleNextClick}>Next &raquo;</button>
             </div>
         </div>
     )
