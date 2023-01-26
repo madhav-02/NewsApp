@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import Newsitem from './Newsitem'
+import PropTypes from 'prop-types'
 export default class News extends Component {
     // articles = [
     //     {
@@ -203,19 +204,27 @@ export default class News extends Component {
     //       "content": "Sweden should not expect Turkey to back its Nato membership bid, Turkish president Tayyip Erdogan said on Monday, days after a copy of the Quran was burned in a Stockholm protest.\r\nSweden applied to … [+2795 chars]"
     //     }
     //   ]
+    static defaultProps = {
+        country: 'in',
+        pageSize: 6,
+        category: 'general'
+    }
+    static propTypes = {
+        country: PropTypes.string,
+        pageSize: PropTypes.number,
+        category: PropTypes.string
+    }
     constructor(){
         super()
         this.state = {
             articles : [],
             loading: false,
             pageNo:1               // The current Page number
-           
-            
         } 
     }
 
     async componentDidMount(){       // This is where using externall endpoints or API's has to be done. This is a lifecycle method - VVVVVImppppppp
-        let url=`https://newsapi.org/v2/top-headlines?country=in&category=business&apiKey=7de8c4f112184e27a19304e8609055da&page=1&pageSize=${this.props.pageSize}`
+        let url=`https://newsapi.org/v2/top-headlines?country=${this.props.country}&category=${this.props.category}&apiKey=7de8c4f112184e27a19304e8609055da&page=1&pageSize=${this.props.pageSize}`
         let data = await fetch(url);
         let parsedData = await data.json();
         console.log(parsedData)
@@ -232,7 +241,7 @@ export default class News extends Component {
         else
             next = false
        
-        let url=`https://newsapi.org/v2/top-headlines?country=in&category=business&apiKey=7de8c4f112184e27a19304e8609055da&page=${this.state.pageNo+1}&pageSize=${this.props.pageSize}`
+        let url=`https://newsapi.org/v2/top-headlines?country=${this.props.country}&category=${this.props.category}&apiKey=7de8c4f112184e27a19304e8609055da&page=${this.state.pageNo+1}&pageSize=${this.props.pageSize}`
             let data = await fetch(url);
             let parsedData = await data.json();
             this.setState({
@@ -244,7 +253,7 @@ export default class News extends Component {
     }
 
     handlePrevClick = async () => {
-        let url=`https://newsapi.org/v2/top-headlines?country=in&category=business&apiKey=7de8c4f112184e27a19304e8609055da&page=${this.state.pageNo - 1}&pageSize=${this.props.pageSize}`
+        let url=`https://newsapi.org/v2/top-headlines?country=${this.props.country}&category=${this.props.category}&apiKey=7de8c4f112184e27a19304e8609055da&page=${this.state.pageNo - 1}&pageSize=${this.props.pageSize}`
         let data = await fetch(url);
         let parsedData = await data.json();
         this.setState({
