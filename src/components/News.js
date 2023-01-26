@@ -214,16 +214,23 @@ export default class News extends Component {
         pageSize: PropTypes.number,
         category: PropTypes.string
     }
-    constructor(){
-        super()
+
+    capitalizeFirstLetter = (string) => {
+        return string.charAt(0).toUpperCase() + string.slice(1);
+      }
+      
+
+    constructor(props){
+        super(props)
         this.state = {
             articles : [],
             loading: false,
             pageNo:1               // The current Page number
-        } 
+        }
+        document.title = `NewsAPI - ${this.capitalizeFirstLetter(this.props.category)}` 
     }
 
-    async componentDidMount(){       // This is where using externall endpoints or API's has to be done. This is a lifecycle method - VVVVVImppppppp
+    async componentDidMount(){       // This is where using externall endpoints or API's has to be done. This is a lifecycle method - VVVVVImppppppp. This runs after render() method
         let url=`https://newsapi.org/v2/top-headlines?country=${this.props.country}&category=${this.props.category}&apiKey=7de8c4f112184e27a19304e8609055da&page=1&pageSize=${this.props.pageSize}`
         let data = await fetch(url);
         let parsedData = await data.json();
@@ -266,11 +273,11 @@ export default class News extends Component {
   render() {
     return (
         <div className="container my-5" >
-            <h2>Top Headlines</h2>
+            <h2>Top {this.capitalizeFirstLetter(this.props.category)} Headlines</h2>
             <div className="row">
                 {this.state.articles.map( (element)=>{
                     return <div className="col-md-4" key={element.url}>
-                    <Newsitem imageUrl={element.urlToImage} title={element.title? element.title.slice(0,55): ""} description={element.description ? element.description.slice(0,40) : ""} newsUrl={element.url}></Newsitem>
+                    <Newsitem imageUrl={element.urlToImage} title={element.title? element.title.slice(0,55): ""} description={element.description ? element.description.slice(0,40) : ""} newsUrl={element.url} author={element.source.name} time={element.publishedAt}></Newsitem>
                 </div> 
                 })};
             </div>
