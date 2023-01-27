@@ -285,7 +285,7 @@ export default class News extends Component {
   render() {
     return (
         <div className="container my-5" >
-            <h2>Top {this.capitalizeFirstLetter(this.props.category)} Headlines</h2>
+            <h2 style={{marginTop:"70px"}}>Top {this.capitalizeFirstLetter(this.props.category)} Headlines</h2>
             <div className="row">
                 {this.state.articles.map( (element)=>{
                     return <div className="col-md-4" key={element.url}>   
