@@ -232,13 +232,17 @@ export default class News extends Component {
 
     async componentDidMount(){       // This is where using externall endpoints or API's has to be done. This is a lifecycle method - VVVVVImppppppp. This runs after render() method
         let url=`https://newsapi.org/v2/top-headlines?country=${this.props.country}&category=${this.props.category}&apiKey=7de8c4f112184e27a19304e8609055da&page=1&pageSize=${this.props.pageSize}`
+        this.props.setProgress(30)
         let data = await fetch(url);
+        this.props.setProgress(60)
         let parsedData = await data.json();
+        this.props.setProgress(80)
         console.log(parsedData)
         this.setState({
             articles : parsedData.articles,
             totalResults : parsedData.totalResults
         })
+        this.props.setProgress(100)
     }
     handleNextClick = async () => {
         let next = false
@@ -249,25 +253,33 @@ export default class News extends Component {
             next = false
        
         let url=`https://newsapi.org/v2/top-headlines?country=${this.props.country}&category=${this.props.category}&apiKey=7de8c4f112184e27a19304e8609055da&page=${this.state.pageNo+1}&pageSize=${this.props.pageSize}`
+        this.props.setProgress(30)
             let data = await fetch(url);
+            this.props.setProgress(60)
             let parsedData = await data.json();
+            this.props.setProgress(80)
             this.setState({
                 articles : parsedData.articles,
                 pageNo : this.state.pageNo + 1,
                 disableNextButton: next
             })
+            this.props.setProgress(100)
 
     }
 
     handlePrevClick = async () => {
         let url=`https://newsapi.org/v2/top-headlines?country=${this.props.country}&category=${this.props.category}&apiKey=7de8c4f112184e27a19304e8609055da&page=${this.state.pageNo - 1}&pageSize=${this.props.pageSize}`
+        this.props.setProgress(30)
         let data = await fetch(url);
+        this.props.setProgress(60)
         let parsedData = await data.json();
+        this.props.setProgress(80)
         this.setState({
             articles : parsedData.articles,
             pageNo : this.state.pageNo - 1,
             disableNextButton:false
         })
+        this.props.setProgress(100)
     }
  
   render() {
@@ -276,7 +288,7 @@ export default class News extends Component {
             <h2>Top {this.capitalizeFirstLetter(this.props.category)} Headlines</h2>
             <div className="row">
                 {this.state.articles.map( (element)=>{
-                    return <div className="col-md-4" key={element.url}>
+                    return <div className="col-md-4" key={element.url}>   
                     <Newsitem imageUrl={element.urlToImage} title={element.title? element.title.slice(0,55): ""} description={element.description ? element.description.slice(0,40) : ""} newsUrl={element.url} author={element.source.name} time={element.publishedAt}></Newsitem>
                 </div> 
                 })};
@@ -287,6 +299,6 @@ export default class News extends Component {
                 <button type="button" disabled={(this.state.pageNo+1) > Math.ceil(this.state.totalResults/this.props.pageSize)} className="btn btn-dark mx-5" onClick={this.handleNextClick}>Next &raquo;</button>
             </div>
         </div>
-    )
+    ) 
   }
 }
