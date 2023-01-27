@@ -231,7 +231,7 @@ export default class News extends Component {
     }
 
     async componentDidMount(){       // This is where using externall endpoints or API's has to be done. This is a lifecycle method - VVVVVImppppppp. This runs after render() method
-        let url=`https://newsapi.org/v2/top-headlines?country=${this.props.country}&category=${this.props.category}&apiKey=7de8c4f112184e27a19304e8609055da&page=1&pageSize=${this.props.pageSize}`
+        let url=`https://newsapi.org/v2/top-headlines?country=${this.props.country}&category=${this.props.category}&apiKey=${this.props.apikey}&page=1&pageSize=${this.props.pageSize}`
         this.props.setProgress(30)
         let data = await fetch(url);
         this.props.setProgress(60)
@@ -252,7 +252,7 @@ export default class News extends Component {
         else
             next = false
        
-        let url=`https://newsapi.org/v2/top-headlines?country=${this.props.country}&category=${this.props.category}&apiKey=7de8c4f112184e27a19304e8609055da&page=${this.state.pageNo+1}&pageSize=${this.props.pageSize}`
+        let url=`https://newsapi.org/v2/top-headlines?country=${this.props.country}&category=${this.props.category}&apiKey=${this.props.apikey}&page=${this.state.pageNo+1}&pageSize=${this.props.pageSize}`
         this.props.setProgress(30)
             let data = await fetch(url);
             this.props.setProgress(60)
@@ -268,7 +268,7 @@ export default class News extends Component {
     }
 
     handlePrevClick = async () => {
-        let url=`https://newsapi.org/v2/top-headlines?country=${this.props.country}&category=${this.props.category}&apiKey=7de8c4f112184e27a19304e8609055da&page=${this.state.pageNo - 1}&pageSize=${this.props.pageSize}`
+        let url=`https://newsapi.org/v2/top-headlines?country=${this.props.country}&category=${this.props.category}&apiKey=${this.props.apikey}&page=${this.state.pageNo - 1}&pageSize=${this.props.pageSize}`
         this.props.setProgress(30)
         let data = await fetch(url);
         this.props.setProgress(60)

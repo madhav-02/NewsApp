@@ -7,6 +7,7 @@ import React, { useState } from "react";
 
 function App() {
   const [progress, setProgress] = useState(0);
+  const apikey = process.env.REACT_APP_NEWS_API
   return (
     <div className="App">
       <Router>
@@ -22,7 +23,7 @@ function App() {
           <Route
             exact
             path="/"
-            element={<News setProgress={setProgress} key="general" category="general" />}
+            element={<News setProgress={setProgress} apikey={apikey} key="general" category="general" />}
           ></Route>{" "}
           // Here key is the main attribute. Without key, on clicking any nav
           link, the end point will change. But the corres. component will not
@@ -32,32 +33,32 @@ function App() {
           <Route
             exact
             path="/business"
-            element={<News setProgress={setProgress} key="business" category="business" />}
+            element={<News setProgress={setProgress} apikey={apikey} key="business" category="business" />}
           ></Route>
           <Route
             exact
             path="/health"
-            element={<News setProgress={setProgress} key="health" category="health" />}
+            element={<News setProgress={setProgress} apikey={apikey} key="health" category="health" />}
           ></Route>
           <Route
             exact
             path="/sports"
-            element={<News setProgress={setProgress} key="sports" category="sports" />}
+            element={<News setProgress={setProgress} apikey={apikey} key="sports" category="sports" />}
           ></Route>
           <Route
             exact
             path="/entertainment"
-            element={<News setProgress={setProgress} key="entertainment" category="entertainment" />}
+            element={<News setProgress={setProgress} apikey={apikey} key="entertainment" category="entertainment" />}
           ></Route>
           <Route
             exact
             path="/science"
-            element={<News setProgress={setProgress} key="science" category="science" />}
+            element={<News setProgress={setProgress} apikey={apikey} key="science" category="science" />}
           ></Route>
           <Route
             exact
             path="/technology"
-            element={<News setProgress={setProgress} key="technology" category="technology" />}
+            element={<News setProgress={setProgress} apikey={apikey} key="technology" category="technology" />}
           ></Route>
         </Routes>
       </Router>
